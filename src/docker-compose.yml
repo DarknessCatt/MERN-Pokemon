@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  mongo:
+    container_name: mongo
+    build: ./Mongo
+    #ports:
+      #- "27017:27017"
+
+  express:
+    container_name: express
+    build: ./Express
+    volumes:
+      - ./Express/app/API:/usr/src/app/API
+      #- ./Express/app/package.json:/usr/src/app/package.json
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  react:
+    container_name: react
+    build: ./React
+    volumes:
+      - ./React/app/public:/usr/src/app/public
+      - ./React/app/src:/usr/src/app/src
+      #- ./React/app/package.json:/usr/src/app/package.json
+    ports:
+      - "5000:3000"
+    #depends_on:
+    #  - express

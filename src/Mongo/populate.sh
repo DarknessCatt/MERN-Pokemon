@@ -1,0 +1,1 @@
+mongoimport -d pokemon -c pokemons --jsonArray < seed.json
