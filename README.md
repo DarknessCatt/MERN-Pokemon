@@ -6,8 +6,8 @@ The main ideia is having a react frontend, express backend and mongodb database 
 The mongodb data used can be found [here](https://github.com/ATL-WDI-Exercises/mongo-pokemon).
 
 ## Requeriments
-* Docker
-* Docker-compose
+* [Docker](https://www.docker.com/get-started)
+* [Docker-compose](https://docs.docker.com/get-started/08_using_compose/)
 
 ## How to run
-Coming soon.
+Simply run `docker-compose up` inside de **src** folder. After everything is up and running (you should see the message `react      | You can now view app in the browser.` in the terminal), access (https://localhost:5000) and enjoy.
