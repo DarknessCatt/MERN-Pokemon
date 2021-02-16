@@ -11,11 +11,12 @@ services:
     build: ./Express
     volumes:
       - ./Express/app/API:/usr/src/app/API
-      #- ./Express/app/package.json:/usr/src/app/package.json
+     # - ./Express/app/package.json:/usr/src/app/package.json
     ports:
       - "3000:3000"
     depends_on:
       - mongo
+    command: sh -c "sleep 8 && ./node_modules/.bin/nodemon API/index.js"
 
   react:
     container_name: react
@@ -23,8 +24,8 @@ services:
     volumes:
       - ./React/app/public:/usr/src/app/public
       - ./React/app/src:/usr/src/app/src
-      #- ./React/app/package.json:/usr/src/app/package.json
+    #  - ./React/app/package.json:/usr/src/app/package.json
     ports:
-      - "5000:3000"
-    #depends_on:
-    #  - express
+      - "5000:5000"
+    depends_on:
+      - express
