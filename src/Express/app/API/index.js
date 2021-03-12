@@ -8,6 +8,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const port = 3000
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -39,25 +40,30 @@ app.get('/search', cors(), (req, res) => {
 app.post('/create', cors(), (req, res) => {
   const collection = req.app.locals.collection;
 
-  if(req.body.hasOwnProperty("name") && req.body.hasOwnProperty("stats") &&
-    req.body.stats.hasOwnProperty("hp") && req.body.stats.hasOwnProperty("attack") &&
-    req.body.stats.hasOwnProperty("defense") && req.body.stats.hasOwnProperty("spattack") &&
-    req.body.stats.hasOwnProperty("spdefense") && req.body.stats.hasOwnProperty("speed"))
+  if(req.body.hasOwnProperty("name") && req.body.name && 
+    req.body.hasOwnProperty("stats") && 
+    req.body.stats.hasOwnProperty("hp") && req.body.stats.hp &&
+    req.body.stats.hasOwnProperty("attack") && req.body.stats.attack &&
+    req.body.stats.hasOwnProperty("defense") && req.body.stats.defense &&
+    req.body.stats.hasOwnProperty("spattack") && req.body.stats.spattack &&
+    req.body.stats.hasOwnProperty("spdefense") && req.body.stats.spdefense &&
+    req.body.stats.hasOwnProperty("speed") && req.body.stats.speed )
+
     collection.findOne({"name": req.body.name}, function(err, response) {
       if (err) throw err;
       if (response !== null){
-        res.status(409).json({"msg": "Duplicate!"})
+        res.status(200).json({"status": 409, "msg": "Duplicate!"})
       }
       else{
         collection.insertOne(req.body, function(err, response) {
           if (err) throw err;
-          res.status(200).json({"msg": "Inserted!", "data": req.body});
+          res.status(200).json({"status": 200, "msg": "Inserted!", "data": req.body});
         });
       }
     });
 
   else{
-    res.status(400).json({"msg": "Invalid Data!"})
+    res.status(200).json({"status": 400, "msg": "Invalid Data!"})
   }
 });
 
