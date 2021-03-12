@@ -11,7 +11,7 @@ services:
     build: ./Express
     volumes:
       - ./Express/app/API:/usr/src/app/API
-     # - ./Express/app/package.json:/usr/src/app/package.json
+    #  - ./Express/app/package.json:/usr/src/app/package.json
     ports:
       - "3000:3000"
     depends_on:

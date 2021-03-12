@@ -18,7 +18,12 @@ function Pokemon(props){
 		<div class="pokemon">
 			<div class="pokemon-visual">
 				{props.data.name} <br/><br/>
-				<img src={props.data.img}/>
+				{props.data.hasOwnProperty("img") ?
+					<img src={props.data.img}/>
+					:
+					<img src="https://cdn.bulbagarden.net/upload/8/8e/Spr_3r_000.png"/>
+				}
+
 			</div>
 			<div class="pokemon-stats">
 				<table>
