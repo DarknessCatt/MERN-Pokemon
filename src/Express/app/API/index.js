@@ -52,18 +52,52 @@ app.post('/create', cors(), (req, res) => {
     collection.findOne({"name": req.body.name}, function(err, response) {
       if (err) throw err;
       if (response !== null){
-        res.status(200).json({"status": 409, "msg": "Duplicate!"})
+        res.status(409).json({"msg": "Duplicate!"})
       }
       else{
         collection.insertOne(req.body, function(err, response) {
           if (err) throw err;
-          res.status(200).json({"status": 200, "msg": "Inserted!", "data": req.body});
+          res.status(200).json({"msg": "Inserted!", "data": req.body});
         });
       }
     });
 
   else{
-    res.status(200).json({"status": 400, "msg": "Invalid Data!"})
+    res.status(400).json({"msg": "Invalid Data!"})
+  }
+});
+
+app.patch('/update', cors(), (req, res) => {
+  const collection = req.app.locals.collection;
+
+  if(req.body.hasOwnProperty("_id")) {
+    collection.findOne({"_id": ObjectId(req.body._id)}, function(err, response) {
+        if (err) throw err;
+        if (response !== null){
+
+          const update = {}
+          if (req.body.name      !== undefined){ update["name"]            = req.body.name }
+          if (req.body.hp        !== undefined){ update["stats.hp"]        = req.body.hp }
+          if (req.body.attack    !== undefined){ update["stats.attack"]    = req.body.attack }
+          if (req.body.defense   !== undefined){ update["stats.defense"]   = req.body.defense }
+          if (req.body.spattack  !== undefined){ update["stats.spattack"]  = req.body.spattack }
+          if (req.body.spdefense !== undefined){ update["stats.spdefense"] = req.body.spdefense }
+          if (req.body.speed     !== undefined){ update["stats.speed"]     = req.body.speed }
+
+          collection.findOneAndUpdate({"_id": ObjectId(req.body._id)}, {$set: update}, {"returnOriginal": false}, function(err, response) {
+            if (err) throw err;
+            res.status(200).json({"msg": "Updated!", "data": response});
+          });
+
+        }
+        else{
+          res.status(400).json({"msg": "Invalid Id!"})
+        }
+      });
+
+  }
+  else{
+    res.status(400).json({"msg": "Missing Entry Id!"})
   }
 });
 

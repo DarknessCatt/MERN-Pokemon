@@ -167,11 +167,14 @@ class App extends React.Component {
     console.log("requesting http://localhost:3000/create")
 
     axios.post("http://localhost:3000/create", params).then(response => {
-      alert(JSON.stringify(response.data.msg))
+      alert(response.data.msg)
       if(response.data.status === 200){
         this.setState( {data: [response.data.data]} )
       }
-    }).catch(console.log);
+    }).catch(error =>{
+      if (error.response) { alert(error.response.data.msg) }
+      else                { console.log('Error', error.message); }
+    });
   }
 
   handleSubmit(params) {
